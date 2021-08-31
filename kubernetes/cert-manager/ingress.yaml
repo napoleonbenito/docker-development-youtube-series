@@ -1,22 +1,27 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-  name: example-app
+    kubernetes.io/ingress.class: "zdiscovery-nginx-default"
+    nginx.org/rewrites: serviceName=hellodocker-service rewrite=/
+    nginx.org/redirect-to-https: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-sre-science-issuer"
+  name: sre-science-api-gateway
 spec:
   tls:
   - hosts:
-    - marcel.guru
-    secretName: example-app-tls
+    - api-gateway-science.zapprovedlabs.com
+    secretName: sre-science-api-gateway-tls
   rules:
-  - host: marcel.guru
+  - host: api-gateway-science.zapprovedlabs.com
     http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service: 
-            name: example-service
-            port: 
-              number: 80
+        paths:
+        - path: /
+          backend:
+            serviceName: hellorick-service
+            servicePort: 80
+        - path: /links/
+          backend:
+            serviceName: hellodocker-service
+            servicePort: 80

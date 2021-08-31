@@ -1,11 +1,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: example-app
+  name: helm-test-ingress
   namespace: default
 spec:
   dnsNames:
-    - marcel.guru
+    - napoleon-test3.zapprovedlabs.com
   secretName: example-app-tls
   issuerRef:
     name: letsencrypt-cluster-issuer

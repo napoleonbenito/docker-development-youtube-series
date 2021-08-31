@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx-monitoring"
+    nginx.org/rewrites: serviceName=visualization-grafana rewrite=/
+    nginx.org/redirect-to-https: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-sre-science-issuer"
+  name: sre-science-monitoring
+spec:
+  tls:
+  - hosts:
+    - monitor-science.zapprovedlabs.com
+    secretName: sre-science-monitoring-tls
+  rules:
+  - host: monitor-science.zapprovedlabs.com
+    http:
+        paths:
+        - path: /
+          backend:
+            serviceName: visualization-grafana
+            servicePort: service

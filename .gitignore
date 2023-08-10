@@ -17,3 +17,4 @@ kubernetes/portainer/business/volume*
 
 #ignore postgres data for sample and database tutorials
 pgdata
+golang/introduction/part-3.http/videos/videos
